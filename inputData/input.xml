@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<house name="hostel" year="2000" numberOfFlatsOnFloor="3">
+    <floor index="1">
+        <flats>
+            <flat name="Mark" coordinates="100,100" area="100" numberOfRooms="3" livingSpace="50" view="YARD" transport="FEW" />
+            <flat name="John" coordinates="105,105" area="90" numberOfRooms="3" livingSpace="40" view="TERRIBLE" transport="NORMAL" />
+<!--            <flat name="Sam" coordinates="" area=" " numberOfRooms=" " livingSpace=" " view=" " transport="" />-->
+        </flats>
+    </floor>
+    <floor index="2">
+        <flats>
+<!--            <flat name="" coordinates="" area="" numberOfRooms="" livingSpace="" view="" transport="" />-->
+<!--            <flat name="" coordinates="" area="" numberOfRooms="" livingSpace="" view="" transport="" />-->
+<!--            <flat name="" coordinates="" area="" numberOfRooms="" livingSpace="" view="" transport="" />-->
+        </flats>
+    </floor>
+</house>
