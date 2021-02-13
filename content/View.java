@@ -1,4 +1,4 @@
-package classes;
+package content;
 
 public enum View {
     YARD,

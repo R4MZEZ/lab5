@@ -1,11 +1,15 @@
 package Main;
 
 import java.io.*;
+import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.LinkedList;
-import classes.*;
+
+import content.*;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -18,15 +22,21 @@ public class Main {
     static int numOfHouse = -1;
 
     public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {
-        BufferedInputStream stream = new BufferedInputStream(new FileInputStream("C:\\Users\\User\\IdeaProjects\\labb5\\src\\inputData\\input.xml"));
+        BufferedInputStream stream = new BufferedInputStream(new FileInputStream(args[0]));
         SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
 
         XMLHandler handler = new XMLHandler();
         parser.parse(stream, handler);
 
-        for (Flat flat : flats)
-            System.out.println(flat.toString());
+        Collections.sort(flats);
+
+        CollectionManager manager = new CollectionManager();
+        manager.max_by_house(flats);
+
+//        for (Flat flat : flats)
+//            System.out.println(flat.toString());
     }
+
     private static class XMLHandler extends DefaultHandler {
         @Override
         public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
@@ -51,7 +61,7 @@ public class Main {
                     numOfHouse++;
                     isNewHouse = false;
                 }
-                flats.add(new Flat(name, new Coordinates(x,y), area, numberOfRooms, livingSpace, view, transport, houses.get(numOfHouse)));
+                flats.add(new Flat(name, new Coordinates(x, y), area, numberOfRooms, livingSpace, view, transport, houses.get(numOfHouse)));
             }
         }
     }

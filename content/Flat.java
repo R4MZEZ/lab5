@@ -1,11 +1,11 @@
-package classes;
+package content;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Flat implements Comparable{
     public Flat(String name, Coordinates coordinates, Long area, Integer numberOfRooms, long livingSpace, View view, Transport transport, House house) {
-        this.id = FlatID.getId();
+        this.id = FlatID.getNewId();
         this.name = name;
         this.coordinates = coordinates;
         this.creationDate = LocalDateTime.now(); //LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd MMM yyyy, HH:mm:ss"))
@@ -91,5 +91,14 @@ public class Flat implements Comparable{
                 ", вид из окна: " + view +
                 ", транспорт:" + transport +
                 ",\n данные дома {Название - " + house.getName() + ", год постройки - " + house.getYear() + ", число квартир на этаже - " + house.getNumberOfFlatsOnFloor() + "}";
+    }
+
+    static class FlatID {
+        private static long id = 0;
+
+        static long getNewId() {
+            id += 1;
+            return id;
+        }
     }
 }
