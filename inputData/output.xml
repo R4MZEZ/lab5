@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<building>
+    <floor>
+        <flats id="1" name="Mark" coordinates="1.0;2" creationDate="15.02.2021, 17:12:06" area="100" numberOfRooms="5" livingSpace="50" view="BAD" transport="FEW">
+            <house name="hostel" year="2000" numberOfFlatsOnFloor="5"/>
+        </flats>
+        <flats id="2" name="Alex" coordinates="1.0;2" creationDate="15.02.2021, 17:12:06" area="100" numberOfRooms="5" livingSpace="50" view="BAD" transport="FEW">
+            <house name="hostel" year="2000" numberOfFlatsOnFloor="5"/>
+        </flats>
+    </floor>
+</building>

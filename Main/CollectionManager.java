@@ -1,14 +1,21 @@
 package Main;
 
+import content.Building;
 import content.Flat;
 import content.House;
 import content.View;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class CollectionManager {
     LinkedHashMap<String, String> manual = new LinkedHashMap<>();
-    private final Date initDate = new Date();
 
     public CollectionManager() {
         manual.put("help","Вывести справку по доступным командам");
@@ -36,7 +43,7 @@ public class CollectionManager {
 
     public void info(Collection c) {
         String info = "Тип - " + c.getClass().getName() +
-                "\nДата инициализации - " + initDate +
+                "\nДата инициализации - " + Building.getInitDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy, HH:mm:ss")) +
                 "\nКоличество элементов - " + c.size();
         System.out.println(info);
     }
@@ -70,9 +77,13 @@ public class CollectionManager {
         System.out.println("Коллекция успешно очищена.");
     }
 
-//    public void save(){
-//
-//    }
+    public void save() throws IOException, JAXBException {
+        FileWriter writer = new FileWriter("C:\\Users\\User\\IdeaProjects\\labb5\\src\\inputData\\output.xml");
+        JAXBContext context = JAXBContext.newInstance(Flat.class, Building.class, House.class);
+        Marshaller marshaller = context.createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+        marshaller.marshal(new Building(), writer);
+    }
 
 //    public void execute_script(){
 //
@@ -127,7 +138,7 @@ public class CollectionManager {
                     maxHouse = flat.getHouse();
                 }
             }
-            System.out.println("Описание элемента с максимальным значением поля 'house':\n" + list.get(index).toString());
+            System.out.println("Описание элемента с максимальным значением поля 'house':\n" + list.get(index).NiceToString());
         }
         else System.out.println("Ошибка. Коллекция пуста.");
     }
@@ -139,7 +150,7 @@ public class CollectionManager {
             while (iterator.hasNext()) {
                 Flat flat = (Flat) iterator.next();
                 if (flat.getView().compareTo(view) < 0)
-                    res += flat.toString() + "\n";
+                    res += flat.NiceToString() + "\n";
             }
             if (res == "") System.out.println("Не найдено элементов со значением поля view меньше заданного.");
         } else System.out.println("Ошибка. Коллекция пуста.");
