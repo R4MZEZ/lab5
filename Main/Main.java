@@ -2,9 +2,9 @@ package Main;
 
 import content.*;
 
-import java.io.*;
-
 import javax.xml.bind.JAXBException;
+import java.io.*;
+import java.util.Scanner;
 
 public class Main {
 
@@ -12,11 +12,9 @@ public class Main {
         BufferedInputStream stream = new BufferedInputStream(new FileInputStream(args[0]));
         CollectionManager manager = new CollectionManager();
 
-        Building.flats.add(new Flat("Mark", new Coordinates(1F, 2), 100L, 5, 50L, View.BAD, Transport.FEW, new House("hostel", 2000, 5)));
-        Building.flats.add(new Flat("Alex", new Coordinates(1F, 2), 100L, 5, 50L, View.BAD, Transport.FEW, new House("hostel", 2000, 5)));
-
-
-//        JAXBContext context = JAXBContext.newInstance(Flat.class, Building.class, House.class);
+        Commander commander = new Commander(manager);
+        commander.interactiveMod();
+        //        JAXBContext context = JAXBContext.newInstance(Flat.class, Building.class, House.class);
 //        Unmarshaller unmarshaller = context.createUnmarshaller();
 //
 //        Building b = (Building) unmarshaller.unmarshal(stream);

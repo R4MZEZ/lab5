@@ -10,6 +10,6 @@ public enum View {
     TERRIBLE;
 
     public static void ViewToString(){
-        System.out.println("Список возможных значений 'view': " + Arrays.toString(View.values()));
+        System.out.println("Список возможных видов из окна: " + Arrays.toString(View.values()));
     }
 }

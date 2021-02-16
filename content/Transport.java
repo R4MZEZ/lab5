@@ -8,6 +8,6 @@ public enum Transport {
     NORMAL;
 
     public static void TransportToString(){
-        System.out.println("Список возможных значений 'transport': " + Arrays.toString(Transport.values()));
+        System.out.println("Список возможных транспортов: " + Arrays.toString(Transport.values()));
     }
 }
