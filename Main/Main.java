@@ -1,25 +1,20 @@
 package Main;
 
-import content.*;
-
 import javax.xml.bind.JAXBException;
 import java.io.*;
-import java.util.Scanner;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException, JAXBException {
-        BufferedInputStream stream = new BufferedInputStream(new FileInputStream(args[0]));
-        CollectionManager manager = new CollectionManager();
-
-        Commander commander = new Commander(manager);
-        commander.interactiveMod();
-        //        JAXBContext context = JAXBContext.newInstance(Flat.class, Building.class, House.class);
-//        Unmarshaller unmarshaller = context.createUnmarshaller();
-//
-//        Building b = (Building) unmarshaller.unmarshal(stream);
-//        System.out.println(b.getFlats().NiceToString());
-
+    public static void main(String[] args){
+        try {
+            Commander commander = new Commander(args[0]);
+            commander.interactiveMod();
+        }catch (JAXBException e){
+            System.out.println("Ошибка при десериализации документа. Проверьте правильность разметки.");
+        }
+        catch (FileNotFoundException e){
+            System.out.println("Ошибка! Файл с входными данными не найден, проверьте путь и доступ к файлу.");
+        }
     }
 
 //    private static class XMLHandler extends DefaultHandler {

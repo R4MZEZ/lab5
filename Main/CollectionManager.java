@@ -19,9 +19,9 @@ import java.util.*;
 public class CollectionManager {
     LinkedHashMap<String, String> manual = new LinkedHashMap<>();
     @XmlElementWrapper(name = "collection")
-    private LinkedList<Flat> flats = new LinkedList<>();
-    private static LocalDateTime initDate = LocalDateTime.now();
-    private String[] temp = new String[11];
+    private final LinkedList<Flat> flats = new LinkedList<>();
+    private final static LocalDateTime initDate = LocalDateTime.now();
+    private final String[] temp = new String[11];
 
     public CollectionManager() {
         manual.put("help", "Вывести справку по доступным командам");
@@ -40,20 +40,12 @@ public class CollectionManager {
         manual.put("average_of_living_space", "Вывести среднее значение поля livingSpace для всех элементов коллекции");
         manual.put("max_by_house", "Вывести любой объект из коллекции, значение поля house которого является максимальным");
         manual.put("filter_less_than_view view", "Вывести элементы, значение поля view которых меньше заданного");
-        flats.add(new Flat("Mark", new Coordinates(1F, 2), 100L, 5, 50L, View.BAD, Transport.FEW, new House("hostel", 2000, 5)));
-        flats.add(new Flat("Alex", new Coordinates(1F, 2), 100L, 5, 50L, View.BAD, Transport.FEW, new House("hostel", 2000, 5)));
     }
 
 
     public static LocalDateTime getInitDate() {
         return initDate;
     }
-
-    public LinkedList<Flat> getFlats() {
-        return flats;
-    }
-
-
 
     public void help() {
         System.out.println(MapToString(manual));
@@ -168,23 +160,36 @@ public class CollectionManager {
                     Long.parseLong(temp[3]), Integer.parseInt(temp[4]), Long.parseLong(temp[5]),
                     View.valueOf(temp[6]),Transport.valueOf(temp[7]), new House(temp[8], Integer.parseInt(temp[9]),
                     Integer.parseInt(temp[10]))));
-        System.out.println("===================================\nЭлемент успешно добавлен.");
     }
 
     public void update(String id, Scanner commandReader){
-        while (!Checker.isLong(id))
-
+        if (Checker.isInteger(id)){
+            for (Flat flat : flats) {
+                if (flat.getId() == Long.parseLong(id)) {
+                    add(commandReader);
+                    flats.getLast().setId(flat.getId());
+                    flats.set(flats.indexOf(flat), flats.getLast());
+                    remove_last();
+                    System.out.println("Элемент успешно обновлён.");
+                    return;
+                }
+            }
+            System.out.println("Элемент с указанным id не найден.");
+        }
+        else System.out.println("Ошибка! 'id' должен быть целым положительным числом. Повторите ввод команды.");
     }
 
-    public void remove_by_id(long id) {
-        for (int i = 0; i < flats.size(); i++) {
-            if (flats.get(i).getId() == id) {
-                flats.remove(i);
-                System.out.println("Элемент с id = '" + id + "' успешно удалён.");
-                return;
+    public void remove_by_id(String id) {
+        if (Checker.isLong(id)) {
+            for (int i = 0; i < flats.size(); i++) {
+                if (flats.get(i).getId() == Long.parseLong(id)) {
+                    flats.remove(i);
+                    System.out.println("Элемент с id = '" + id + "' успешно удалён.");
+                    return;
+                }
             }
-        }
-        System.out.println("Элемента с id = '" + id + "' не найдено.");
+            System.out.println("Элемента с id = '" + id + "' не найдено.");
+        } else System.out.println("Ошибка! 'id' должен быть целым положительным числом. Повторите ввод команды.");
     }
 
     public void clear() {
@@ -204,19 +209,22 @@ public class CollectionManager {
 //
 //    }
 
-    public void remove_at(int index) {
-        try {
-            flats.remove(index);
-            System.out.println("Элемент коллекции успешно удалён.");
-        } catch (IndexOutOfBoundsException ex) {
-            System.out.println("Ошибка. Элемента с таким индексом не существует.");
+    public void remove_at(String index) {
+        if (Checker.isInteger(index)) {
+            try {
+                flats.remove(Integer.parseInt(index));
+                System.out.println("Элемент коллекции успешно удалён.");
+            } catch (IndexOutOfBoundsException ex) {
+                System.out.println("Ошибка. Элемента с таким индексом не существует.");
+            }
         }
-    }
+        else System.out.println("Ошибка! Индекс должен быть целым неотрицательным числом. Повторите ввод команды.");
+
+}
 
     public void remove_last() {
         try {
             flats.removeLast();
-            System.out.println("Последний элемент успешно удалён.");
         } catch (NoSuchElementException ex) {
             System.out.println("Ошибка. Невозможно удалить последний элемент коллекции, т.к. она пуста.");
         }
@@ -225,15 +233,15 @@ public class CollectionManager {
 
     public void shuffle() {
         Collections.shuffle(flats);
-        System.out.println("Элементы коллекции успешно перемешаны");
+        System.out.println("Элементы коллекции успешно перемешаны.");
     }
 
     public void average_of_living_space() {
         if (flats.size() > 0) {
-            Iterator iterator = flats.iterator();
+            Iterator<Flat> iterator = flats.iterator();
             long sum = 0;
             while (iterator.hasNext()) {
-                Flat flat = (Flat) iterator.next();
+                Flat flat = iterator.next();
                 sum += flat.getLivingSpace();
             }
             System.out.println("Cреднее значение поля livingSpace равно " + sum / flats.size());
@@ -242,11 +250,11 @@ public class CollectionManager {
 
     public void max_by_house() {
         if (flats.size() > 0) {
-            Iterator iterator = flats.iterator();
+            Iterator<Flat> iterator = flats.iterator();
             House maxHouse = flats.get(0).getHouse();
             int index = 0;
             while (iterator.hasNext()) {
-                Flat flat = (Flat) iterator.next();
+                Flat flat = iterator.next();
                 if (flat.getHouse().compareTo(maxHouse) > 0) {
                     index = flats.indexOf(flat);
                     maxHouse = flat.getHouse();
@@ -256,24 +264,30 @@ public class CollectionManager {
         } else System.out.println("Ошибка. Коллекция пуста.");
     }
 
-    public void filter_less_than_view(View view) {
-        if (flats.size() > 0) {
-            Iterator iterator = flats.iterator();
-            String res = "";
-            while (iterator.hasNext()) {
-                Flat flat = (Flat) iterator.next();
-                if (flat.getView().compareTo(view) < 0)
-                    res += flat.NiceToString() + "\n";
-            }
-            if (res == "") System.out.println("Не найдено элементов со значением поля view меньше заданного.");
-        } else System.out.println("Ошибка. Коллекция пуста.");
+    public void filter_less_than_view(String view) {
+        if (Checker.isView(view)) {
+            if (flats.size() > 0) {
+                Iterator<Flat> iterator = flats.iterator();
+                StringBuilder res = new StringBuilder();
+                while (iterator.hasNext()) {
+                    Flat flat = iterator.next();
+                    if (flat.getView().compareTo(View.valueOf(view)) < 0)
+                        res.append(flat.NiceToString()).append("\n");
+                }
+                if (res.toString().equals("")) {
+                    System.out.println("Не найдено элементов со значением поля view меньше заданного.");
+                }
+                else System.out.println(res);
+            } else System.out.println("Ошибка. Коллекция пуста.");
+        }else {
+            System.out.println("Ошибка. Вы ввели недопустимое значение 'view'.");
+            View.ViewToString();
+        }
     }
 
     public String MapToString(Map map) {
         String res = "";
-        Iterator iterator = map.keySet().iterator();
-        while (iterator.hasNext()) {
-            Object key = iterator.next();
+        for (Object key : map.keySet()) {
             Object value = map.get(key);
             res += key + ": " + value + "\n";
         }

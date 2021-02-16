@@ -36,7 +36,7 @@ public class Flat implements Comparable{
     private Coordinates coordinates; //Поле не может быть null
     @XmlJavaTypeAdapter(LocalDateTimeAdapter.class)
     @XmlAttribute
-    private java.time.LocalDateTime creationDate; //Поле не может быть null, Значение этого поля должно генерироваться автоматически
+    private final java.time.LocalDateTime creationDate; //Поле не может быть null, Значение этого поля должно генерироваться автоматически
     @XmlAttribute(name = "area")
     private Long area; //Поле не может быть null, Значение поля должно быть больше 0
     @XmlAttribute(name = "numberOfRooms")
@@ -50,9 +50,12 @@ public class Flat implements Comparable{
     @XmlElement(name="house")
     private House house; //Поле может быть null
 
-
+    @XmlTransient
     public long getId(){
         return id;
+    }
+    public void setId(long id){
+        this.id = id;
     }
 
     public String getName() {
@@ -109,6 +112,22 @@ public class Flat implements Comparable{
                 ", вид из окна: " + view +
                 ", транспорт:" + transport +
                 ",\n данные дома {Название - " + house.getName() + ", год постройки - " + house.getYear() + ", число квартир на этаже - " + house.getNumberOfFlatsOnFloor() + "}";
+    }
+
+    @Override
+    public String toString() {
+        return "Flat{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", coordinates=" + coordinates +
+                ", creationDate=" + creationDate +
+                ", area=" + area +
+                ", numberOfRooms=" + numberOfRooms +
+                ", livingSpace=" + livingSpace +
+                ", view=" + view +
+                ", transport=" + transport +
+                ", house=" + house +
+                '}';
     }
 
     static class FlatID {

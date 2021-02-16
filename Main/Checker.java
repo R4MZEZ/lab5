@@ -46,7 +46,6 @@ public final class Checker {
         }
     }
 
-
     public static boolean isString(String s) {
         return !(s == null || s.equals(""));
     }
