@@ -2,6 +2,9 @@ package content;
 
 import java.util.Arrays;
 
+/**
+ * Класс для хранения видов из окна квартиры
+ */
 public enum View {
     YARD,
     BAD,

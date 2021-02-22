@@ -8,8 +8,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Класс, объекты которого будут храниться в коллекции
+ */
 @XmlType(name = "flat")
-public class Flat implements Comparable{
+public class Flat implements Comparable<Flat>{
     public Flat(String name, Coordinates coordinates, Long area, Integer numberOfRooms, long livingSpace, View view, Transport transport, House house) {
         this.id = FlatID.getNewId();
         this.name = name;
@@ -95,17 +98,16 @@ public class Flat implements Comparable{
     }
 
     @Override
-    public int compareTo(Object o) {
-        Flat obj = (Flat) o;
-        return this.name.length() - obj.getName().length();
+    public int compareTo(Flat flat) {
+        return this.name.length() - flat.getName().length();
     }
 
     public String NiceToString() {
-        return "\t\t\t\t\t\t\t\t\t\t\tКВАРТИРА " + id + "\n" +
+        return "\t\t\t\t\t\tКВАРТИРА " + id + "\n" +
                 "Номер квартиры: " + id +
                 ", имя собственника: " + name  +
                 ", координаты квартиры: (" + coordinates.getX() + ", " + coordinates.getY() + ")" +
-                ", время добавления квартиры в коллекцию: " + creationDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy, HH:mm:ss")) +
+                ",\n время добавления квартиры в коллекцию: " + creationDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy, HH:mm:ss")) +
                 ",\n жил.площадь: " + area + " кв.м." +
                 ", число комнат: " + numberOfRooms +
                 ", площадь жилых комнат: " + livingSpace + " кв.м." +
@@ -128,6 +130,10 @@ public class Flat implements Comparable{
                 ", transport=" + transport +
                 ", house=" + house +
                 '}';
+    }
+
+    public boolean isEmpty(){
+        return name == null || name.equals("") || coordinates.getX() == null || coordinates.getY() > 368 || area == null || area < 0 || numberOfRooms == null || numberOfRooms < 0 || livingSpace < 0 || view == null || transport == null || house.getName() == null || house.getNumberOfFlatsOnFloor() < 0 || house.getYear() == null || house.getYear() < 0;
     }
 
     static class FlatID {

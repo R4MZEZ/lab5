@@ -1,5 +1,8 @@
 package content;
 
+/**
+ * Класс для хранения координат квартиры
+ */
 public class Coordinates {
     public Coordinates(Float x, long y) {
         this.x = x;

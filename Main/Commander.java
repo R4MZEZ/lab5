@@ -6,15 +6,19 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.MarshalException;
 import javax.xml.bind.Unmarshaller;
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Scanner;
+import java.util.Set;
 
+/**
+ * Класс, обеспечивающий обработку пользовательских команд
+ */
 public class Commander {
 
-    private final CollectionManager manager;
+    private static final Set<String> pathList = new HashSet<>();
+    private CollectionManager manager = new CollectionManager();
     private String fullUserCommand = "";
 
     BufferedInputStream stream;
@@ -23,13 +27,24 @@ public class Commander {
 
     public Commander(String filePath) throws JAXBException, FileNotFoundException {
         stream = new BufferedInputStream(new FileInputStream(filePath));
-        this.manager = (CollectionManager) unmarshaller.unmarshal(stream);
+        try {
+            this.manager = (CollectionManager) unmarshaller.unmarshal(stream);
+            for (Flat flat : manager.getFlats()) {
+                if (flat.isEmpty()) {
+                    System.out.println("Ошибка! Одна из квартир не была добавлена в коллекцию, т.к. одно или несколько полей не были указаны, либо выходят за допустимый диапазон.");
+                    manager.remove_by_id(String.valueOf(flat.getId()));
+                }
+            }
+        } catch (NumberFormatException e){
+            System.out.println("Ошибка! Невозможно считать коллекцию из файла, т.к. одно или несколько полей указаны в некорректном формате (например, на месте числа - строка).");
+        }
+
     }
 
-    public void interactiveMod() {
-        System.out.println("***\tНачало работы. Для просмотра доступных команд напишите 'help'\t***");
-        try (Scanner commandReader = new Scanner(System.in)) {
-            while (!fullUserCommand.equals("exit")) {
+    public void interactiveMod(InputStream stream) {
+        if (stream.equals(System.in))System.out.println("***\tНачало работы. Для просмотра доступных команд напишите 'help'\t***");
+        try (Scanner commandReader = new Scanner(stream)) {
+            while (!fullUserCommand.equals("exit") && commandReader.hasNext()) {
                 fullUserCommand = commandReader.nextLine();
                 String[] command = fullUserCommand.trim().split(" ", 2);
                 try {
@@ -47,13 +62,13 @@ public class Commander {
                             break;
                         case "add":
                             manager.add(commandReader);
-                            System.out.println("===================================\nЭлемент успешно добавлен.");
                             break;
                         case "update":
                             manager.update(command[1], commandReader);
                             break;
                         case "remove_by_id":
                             manager.remove_by_id(command[1]);
+                            System.out.println("Элемент успешно удалён.");
                             break;
                         case "clear":
                             manager.clear();
@@ -70,6 +85,20 @@ public class Commander {
                             } catch (JAXBException e) {
                                 e.printStackTrace();
                             }
+                            break;
+                        case "execute_script":
+                            if (stream.equals(System.in)){
+                                pathList.clear();
+                            } else {
+                                if (pathList.contains(command[1])){
+                                    System.out.println("#############################################\nОшибка! Один или несколько скриптов зациклены.\n#############################################");
+                                    break;
+                                }
+                            }  //Проверка на зацикленность
+                            pathList.add(command[1]);
+                            System.out.println("====  Начало выполнения скрипта по адресу " + command[1] + "  ====");
+                            interactiveMod(new BufferedInputStream(new FileInputStream(command[1])));
+                            System.out.println("====  Скрипт успешно выполнен  ====\n");
                             break;
                         case "remove_at":
                             manager.remove_at(command[1]);
@@ -95,11 +124,12 @@ public class Commander {
                                 System.out.println("Неопознанная команда. Наберите 'help' для справки.");
                             } else System.out.println("***\tВыход из интерактивного режима\t***");
                     }
-                } catch (ArrayIndexOutOfBoundsException ex) {
+                } catch (ArrayIndexOutOfBoundsException e) {
                     System.out.println("Отсутствует аргумент.");
+                } catch (FileNotFoundException e){
+                    System.out.println("Файл для извлечения скрипта не найден. Проверьте путь и права доступа к файлу.");
                 }
             }
         }
     }
-
 }

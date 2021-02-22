@@ -2,6 +2,9 @@ package content;
 
 import java.util.Arrays;
 
+/**
+ * Класс для хранения вида транспорта собственника квартиры
+ */
 public enum Transport {
     FEW,
     LITTLE,

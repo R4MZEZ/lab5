@@ -3,6 +3,9 @@ package Main;
 import content.Transport;
 import content.View;
 
+/**
+ * Класс для проверки типа аргумента пользовательской команды
+ */
 public final class Checker {
     public static boolean isFloat(String s){
         try {

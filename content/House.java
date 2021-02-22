@@ -2,6 +2,9 @@ package content;
 
 import javax.xml.bind.annotation.XmlAttribute;
 
+/**
+ * Класс для хранения данных о доме, в котором находится квартира
+ */
 public class House implements Comparable {
     public House(String name, Integer year, int numberOfFlatsOnFloor) {
         this.name = name;
