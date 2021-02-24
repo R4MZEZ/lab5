@@ -1,41 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<root>
-    <house name="hostel" year="2000" numberOfFlatsOnFloor="3">
-        <floor index="1">
-            <flats>
-                <flat name="Dmitry" coordinates="100,100" area="100" numberOfRooms="3" livingSpace="50" view="YARD"
-                      transport="FEW"/>
-                <flat name="Johny" coordinates="105,105" area="90" numberOfRooms="3" livingSpace="40" view="TERRIBLE"
-                      transport="NORMAL"/>
-                <!--            <flat name="Sam" coordinates="" area=" " numberOfRooms=" " livingSpace=" " view=" " transport="" />-->
-            </flats>
-        </floor>
-        <floor index="2">
-            <flats>
-                <!--            <flat name="" coordinates="" area="" numberOfRooms="" livingSpace="" view="" transport="" />-->
-                <!--            <flat name="" coordinates="" area="" numberOfRooms="" livingSpace="" view="" transport="" />-->
-                <!--            <flat name="" coordinates="" area="" numberOfRooms="" livingSpace="" view="" transport="" />-->
-            </flats>
-        </floor>
-    </house>
-    <house name="skyscraper" year="2015" numberOfFlatsOnFloor="20">
-        <floor index="1">
-            <flats>
-                <flat name="Alex" coordinates="500,500" area="100" numberOfRooms="5" livingSpace="100" view="YARD"
-                      transport="FEW"/>
-                <!--                <flat name="" coordinates="" area="" numberOfRooms="" livingSpace="" view="" transport="" />-->
-                <!--                <flat name="" coordinates="" area="" numberOfRooms="" livingSpace="" view="" transport="" />-->
-            </flats>
-        </floor>
-    </house>
-    <house name="Общежитие" year="1815" numberOfFlatsOnFloor="100500">
-        <floor index="1">
-            <flats>
-                <flat name="Donald" coordinates="100,500" area="5" numberOfRooms="1" livingSpace="5" view="TERRIBLE"
-                      transport="LITTLE"/>
-                <!--                <flat name="" coordinates="" area="" numberOfRooms="" livingSpace="" view="" transport="" />-->
-                <!--                <flat name="" coordinates="" area="" numberOfRooms="" livingSpace="" view="" transport="" />-->
-            </flats>
-        </floor>
-    </house>
-</root>
+<collectionManager>
+    <collection>
+        <flats name="Vova" coordinates="12;3" area="123" numberOfRooms="5" livingSpace="13" view="BAd" transport="FEW">
+            <house name="hostel" year="2000" numberOfFlatsOnFloor="5"/>
+        </flats>
+        <flats name="Alex" coordinates="1.0;2" area="100" numberOfRooms="5" livingSpace="50" view="BAD" transport="FEW">
+            <house name="hostel" year="2000" numberOfFlatsOnFloor="5"/>
+        </flats>
+        <flats name="asd" coordinates="123.0;12" area="123" numberOfRooms="4" livingSpace="12" view="BAD" transport="NORMAL">
+            <house name="asd" year="1" numberOfFlatsOnFloor="4"/>
+        </flats>
+    </collection>
+</collectionManager>

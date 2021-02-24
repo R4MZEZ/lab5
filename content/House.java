@@ -1,10 +1,18 @@
 package content;
 
-public class House implements Comparable{
+import javax.xml.bind.annotation.XmlAttribute;
+
+/**
+ * Класс для хранения данных о доме, в котором находится квартира
+ */
+public class House implements Comparable {
     public House(String name, Integer year, int numberOfFlatsOnFloor) {
         this.name = name;
         this.year = year;
         this.numberOfFlatsOnFloor = numberOfFlatsOnFloor;
+    }
+
+    public House() {
     }
 
     public String getName() {
@@ -19,13 +27,16 @@ public class House implements Comparable{
         return numberOfFlatsOnFloor;
     }
 
+    @XmlAttribute(name = "name")
     private String name; //Поле не может быть null
+    @XmlAttribute(name = "year")
     private Integer year; //Значение поля должно быть больше 0
+    @XmlAttribute(name = "numberOfFlatsOnFloor")
     private int numberOfFlatsOnFloor; //Значение поля должно быть больше 0
 
     @Override
     public int compareTo(Object o) {
-        House obj = (House)o;
+        House obj = (House) o;
         return this.year - obj.getYear();
     }
 }

@@ -1,5 +1,8 @@
 package content;
 
+/**
+ * Класс для хранения координат квартиры
+ */
 public class Coordinates {
     public Coordinates(Float x, long y) {
         this.x = x;
@@ -14,6 +17,11 @@ public class Coordinates {
         return y;
     }
 
-    private Float x; //Поле не может быть null
-    private long y; //Максимальное значение поля: 368
+    public String getStringValue(){ return x + ";" + y; }
+
+
+    private final Float x; //Поле не может быть null
+    private final long y; //Максимальное значение поля: 368
+
+
 }
