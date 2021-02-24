@@ -85,7 +85,7 @@ public class CollectionManager {
             System.out.print("Введите имя собственника: ");
             temp[0] = commandReader.nextLine();
             while (!Checker.isString(temp[0])) {
-                System.out.println("Ошибка! Имя должно быть непустой строкой.");
+                System.out.println("Ошибка! Uмя должно быть непустой строкой.");
                 System.out.print("Введите имя собственника: ");
                 temp[0] = commandReader.nextLine();
             }
@@ -182,7 +182,7 @@ public class CollectionManager {
             System.out.println("===================================\nЭлемент успешно добавлен/обновлён.");
         } catch (NoSuchElementException ex){
             System.out.println();
-            System.out.println("Ошибка! В скрипте инициализированы не все параметры объекта. Проверьте их корректность и достаточность.");
+            System.out.println("Ошибка! Отсутствие ожидаемого аргумента.");
         }
     }
 
@@ -233,12 +233,12 @@ public class CollectionManager {
 
     /**
      * Сохранить коллекцию в файл
-     * @param manager
+     * @param manager : объект для доступа к коллекции
      * @throws IOException если файл не найден или защищен
      * @throws JAXBException если не удалось сериализовать коллекцию
      */
     public void save(CollectionManager manager) throws IOException, JAXBException {
-        FileWriter writer = new FileWriter("output.xml");
+        FileWriter writer = new FileWriter("outpuut.xml");
         JAXBContext context = JAXBContext.newInstance(Flat.class, CollectionManager.class, House.class);
         Marshaller marshaller = context.createMarshaller();
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
@@ -259,7 +259,7 @@ public class CollectionManager {
                 System.out.println("Ошибка. Элемента с таким индексом не существует.");
             }
         }
-        else System.out.println("Ошибка! Индекс должен быть целым неотрицательным числом. Повторите ввод команды.");
+        else System.out.println("Ошибка! Uндекс должен быть целым неотрицательным числом. Повторите ввод команды.");
 
 }
 
@@ -342,17 +342,26 @@ public class CollectionManager {
         }
     }
 
+    /**
+     * Получить объект коллекции
+     * @return коллекцию
+     */
     public LinkedList<Flat> getFlats() {
         return flats;
     }
 
-    public String MapToString(Map map) {
-        String res = "";
-        for (Object key : map.keySet()) {
-            Object value = map.get(key);
-            res += key + ": " + value + "\n";
+    /**
+     * Преобразование набора команд в читаемый вид
+     * @param map : объект Map, который нужно преобразовать
+     * @return преобразованную строку
+     */
+    public String MapToString(Map<String,String> map) {
+        StringBuilder res = new StringBuilder();
+        for (String key : map.keySet()) {
+            String value = map.get(key);
+            res.append(key).append(": ").append(value).append("\n");
         }
-        return res;
+        return res.toString();
 
     }
 

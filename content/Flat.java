@@ -103,7 +103,7 @@ public class Flat implements Comparable<Flat>{
     }
 
     public String NiceToString() {
-        return "\t\t\t\t\t\tКВАРТИРА " + id + "\n" +
+        return "\t\t\t\t\t\tКВАРТUРА " + id + "\n" +
                 "Номер квартиры: " + id +
                 ", имя собственника: " + name  +
                 ", координаты квартиры: (" + coordinates.getX() + ", " + coordinates.getY() + ")" +
@@ -132,10 +132,17 @@ public class Flat implements Comparable<Flat>{
                 '}';
     }
 
+    /**
+     * Проверка, правильно ли был заполнен объект из файла
+     * @return true/false
+     */
     public boolean isEmpty(){
         return name == null || name.equals("") || coordinates.getX() == null || coordinates.getY() > 368 || area == null || area < 0 || numberOfRooms == null || numberOfRooms < 0 || livingSpace < 0 || view == null || transport == null || house.getName() == null || house.getNumberOfFlatsOnFloor() < 0 || house.getYear() == null || house.getYear() < 0;
     }
 
+    /**
+     * Класс для хранения и генерации уникальных id
+     */
     static class FlatID {
         private static long id = 0;
 

@@ -29,10 +29,11 @@ public class Commander {
         stream = new BufferedInputStream(new FileInputStream(filePath));
         try {
             this.manager = (CollectionManager) unmarshaller.unmarshal(stream);
-            for (Flat flat : manager.getFlats()) {
-                if (flat.isEmpty()) {
+            Iterator<Flat> iterator = manager.getFlats().listIterator();
+            while (iterator.hasNext()){
+                if (iterator.next().isEmpty()){
                     System.out.println("Ошибка! Одна из квартир не была добавлена в коллекцию, т.к. одно или несколько полей не были указаны, либо выходят за допустимый диапазон.");
-                    manager.remove_by_id(String.valueOf(flat.getId()));
+                    iterator.remove();
                 }
             }
         } catch (NumberFormatException e){
@@ -41,6 +42,10 @@ public class Commander {
 
     }
 
+    /**
+     * Включить интерактивный режим
+     * @param stream : поток ввода
+     */
     public void interactiveMod(InputStream stream) {
         if (stream.equals(System.in))System.out.println("***\tНачало работы. Для просмотра доступных команд напишите 'help'\t***");
         try (Scanner commandReader = new Scanner(stream)) {
