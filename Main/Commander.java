@@ -51,7 +51,7 @@ public class Commander {
         try (Scanner commandReader = new Scanner(stream)) {
             while (!fullUserCommand.equals("exit") && commandReader.hasNext()) {
                 fullUserCommand = commandReader.nextLine();
-                String[] command = fullUserCommand.trim().split(" ", 2);
+                String[] command = fullUserCommand.trim().split(" ");
                 try {
                     switch (command[0]) {
                         case "":
@@ -73,7 +73,6 @@ public class Commander {
                             break;
                         case "remove_by_id":
                             manager.remove_by_id(command[1]);
-                            System.out.println("Элемент успешно удалён.");
                             break;
                         case "clear":
                             manager.clear();

@@ -216,11 +216,14 @@ public class CollectionManager {
             for (int i = 0; i < flats.size(); i++) {
                 if (flats.get(i).getId() == Long.parseLong(id)) {
                     flats.remove(i);
+                    System.out.println("Элемент успешно удалён.");
                     return;
                 }
             }
             System.out.println("Элемента с id = '" + id + "' не найдено.");
-        } else System.out.println("Ошибка! 'id' должен быть целым положительным числом. Повторите ввод команды.");
+        } else {
+            System.out.println("Ошибка! 'id' должен быть целым положительным числом. Повторите ввод команды.");
+        }
     }
 
     /**

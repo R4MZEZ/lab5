@@ -16,7 +16,7 @@ public class LocalDateTimeAdapter extends XmlAdapter<String,LocalDateTime> {
                                 Integer.parseInt(v.split(",")[1].split(":")[1]),
                                 Integer.parseInt(v.split(",")[1].split(":")[2]));
     }
-    public String marshal(LocalDateTime l) throws Exception {
+    public String marshal(LocalDateTime l) {
         return l.format(DateTimeFormatter.ofPattern("dd.MM.yyyy, HH:mm:ss"));
     }
 }
